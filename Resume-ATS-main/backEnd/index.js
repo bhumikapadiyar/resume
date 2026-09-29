@@ -74,6 +74,11 @@ app.use(cors({
     if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
       return callback(null, true);
     }
+    try {
+      if (/\.vercel\.app$/.test(new URL(origin).hostname)) {
+        return callback(null, true);
+      }
+    } catch {}
     return callback(new Error(`CORS blocked for origin: ${origin}`));
   },
   credentials: true
