@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backEnd/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["frontEnd/public/**"]
+      }
+    },
+    {
+      "src": "frontEnd/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backEnd/index.js"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontEnd/public/index.html"
+    }
+  ]
+}

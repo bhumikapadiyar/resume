@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "Resume-ATS-main/backEnd/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["Resume-ATS-main/frontEnd/public/**"]
+      }
+    },
+    {
+      "src": "Resume-ATS-main/frontEnd/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "Resume-ATS-main/backEnd/index.js"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "Resume-ATS-main/frontEnd/public/index.html"
+    }
+  ]
+}

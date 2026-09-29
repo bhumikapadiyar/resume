@@ -4,6 +4,9 @@ import cors from 'cors';
 import multer from 'multer';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 import connectDB from './config/db.js';
 import { validateEnvironment } from './config/env.js';
@@ -18,6 +21,17 @@ import { uploadResume } from './services/fileStorage.js';
 dotenv.config();
 connectDB();
 validateEnvironment();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const candidatePaths = [
+  path.resolve(__dirname, '../frontEnd/public'),
+  path.resolve(__dirname, '../../public'),
+  path.resolve(process.cwd(), 'frontEnd/public'),
+  path.resolve(process.cwd(), 'Resume-ATS-main/frontEnd/public'),
+  path.resolve(process.cwd(), 'public')
+];
+const frontEndPath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
 
 const app = express();
 app.set('trust proxy', 1);
@@ -90,8 +104,36 @@ app.use((error, req, res, next) => {
   res.status(status).json({ error: message });
 });
 
-app.get('/', (req, res) => {
+// Serve static assets from frontend build if available
+if (fs.existsSync(frontEndPath)) {
+  app.use(express.static(frontEndPath));
+}
+
+// API health endpoint (moved from root '/')
+app.get('/api', (req, res) => {
   res.json({
+    status: 'ok',
+    service: 'Resumely ATS REST API',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth',
+      analyses: '/api/analyses',
+      analyze: '/api/analyze'
+    }
+  });
+});
+
+// Single Page Application (SPA) fallback:
+// Any GET request not matching /api/* returns index.html so React Router works
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    return next();
+  }
+  const indexPath = path.join(frontEndPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  return res.json({
     status: 'ok',
     service: 'Resumely ATS REST API',
     version: '1.0.0',
@@ -106,6 +148,12 @@ app.get('/', (req, res) => {
 app.use('*', (req, res) => {
   res.status(404).json({ error: `API route ${req.originalUrl} not found.` });
 });
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Resumely server running on port ${PORT}`);
-});
+
+if (!process.env.VERCEL) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Resumely server running on port ${PORT}`);
+  });
+}
+
+export default app;
+
