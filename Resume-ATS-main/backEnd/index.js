@@ -18,12 +18,26 @@ import { requireAuth } from './middleware/auth.js';
 import { analyzeResume } from './services/analysis.js';
 import { uploadResume } from './services/fileStorage.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config();
+const envPaths = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), 'Resume-ATS-main/.env'),
+  path.resolve(__dirname, '../.env'),
+  path.resolve(__dirname, '../../.env')
+];
+for (const p of envPaths) {
+  if (fs.existsSync(p)) {
+    dotenv.config({ path: p });
+    break;
+  }
+}
+
 connectDB();
 validateEnvironment();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const candidatePaths = [
   path.resolve(__dirname, '../frontEnd/public'),
   path.resolve(__dirname, '../../public'),
