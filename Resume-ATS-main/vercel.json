@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "backEnd/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["frontEnd/public/**"]
-      }
+      "use": "@vercel/node"
     },
     {
       "src": "frontEnd/package.json",
@@ -19,14 +16,15 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backEnd/index.js"
+      "dest": "/backEnd/index.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/(.*\\.(?:js|css|ico|png|jpg|jpeg|svg|json|map|woff|woff2|ttf|eot))",
+      "dest": "/frontEnd/public/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "frontEnd/public/index.html"
+      "dest": "/frontEnd/public/index.html"
     }
   ]
 }

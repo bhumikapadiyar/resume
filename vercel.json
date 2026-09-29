@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "Resume-ATS-main/backEnd/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["Resume-ATS-main/frontEnd/public/**"]
-      }
+      "use": "@vercel/node"
     },
     {
       "src": "Resume-ATS-main/frontEnd/package.json",
@@ -19,14 +16,15 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "Resume-ATS-main/backEnd/index.js"
+      "dest": "/Resume-ATS-main/backEnd/index.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/(.*\\.(?:js|css|ico|png|jpg|jpeg|svg|json|map|woff|woff2|ttf|eot))",
+      "dest": "/Resume-ATS-main/frontEnd/public/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "Resume-ATS-main/frontEnd/public/index.html"
+      "dest": "/Resume-ATS-main/frontEnd/public/index.html"
     }
   ]
 }
