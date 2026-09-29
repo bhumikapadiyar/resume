@@ -1,0 +1,27 @@
+{
+  "name": "resumely-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:bundle\" \"npm run dev:serve\"",
+    "dev:bundle": "esbuild src/index.js --bundle --sourcemap --outfile=public/app.js --loader:.js=jsx --watch",
+    "dev:serve": "live-server public --port=3000 --no-browser",
+    "build": "esbuild src/index.js --bundle --minify --outfile=public/app.js --loader:.js=jsx"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.5.0",
+    "concurrently": "^10.0.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.1.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2",
+    "live-server": "^1.2.2"
+  },
+  "allowScripts": {
+    "esbuild@0.24.2": true
+  }
+}

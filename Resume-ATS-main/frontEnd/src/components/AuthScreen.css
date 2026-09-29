@@ -1,0 +1,205 @@
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  animation: auth-enter .45s ease-out both
+}
+
+.auth-art {
+  padding: 38px 8%;
+  background: var(--green);
+  color: #f8faf4;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden
+}
+
+.auth-art:after {
+  content: '';
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border: 1px solid rgba(255, 255, 255, .17);
+  border-radius: 50%;
+  right: -170px;
+  bottom: -170px;
+  box-shadow: 0 0 0 70px rgba(255, 255, 255, .035), 0 0 0 140px rgba(255, 255, 255, .025)
+}
+
+.auth-art .brand {
+  color: #fff
+}
+
+.auth-art .brand-mark {
+  background: var(--yellow)
+}
+
+.art-copy {
+  max-width: 560px;
+  margin: auto 0 15%;
+  position: relative;
+  z-index: 1
+}
+
+.auth-art .eyebrow {
+  color: var(--lime)
+}
+
+.art-copy h1 {
+  font: 600 clamp(40px, 5vw, 70px)/1.02 'Space Grotesk', sans-serif;
+  letter-spacing: -3px;
+  margin-bottom: 25px
+}
+
+.art-copy p:not(.eyebrow) {
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 430px;
+  color: #d7e5d9
+}
+
+.art-note {
+  display: flex;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+  align-items: flex-start
+}
+
+.art-note > span {
+  color: var(--lime);
+  font: 600 13px 'Space Grotesk'
+}
+
+.art-note strong,
+.art-note small {
+  display: block
+}
+
+.art-note small {
+  color: #bdd1c1;
+  margin-top: 5px
+}
+
+.auth-panel {
+  display: grid;
+  place-items: center;
+  background: var(--paper)
+}
+
+.auth-inner {
+  width: min(390px, 80%);
+  position: relative;
+  z-index: 1
+}
+
+.mobile-brand {
+  display: none
+}
+
+.auth-heading {
+  margin-bottom: 35px
+}
+
+.auth-heading h2 {
+  font: 600 43px 'Space Grotesk';
+  letter-spacing: -2px;
+  margin-bottom: 10px;
+  animation: heading-enter .5s ease-out .08s both
+}
+
+.auth-heading p:last-child {
+  color: var(--muted)
+}
+
+.auth-panel input {
+  transition: border-color .2s, box-shadow .2s
+}
+
+.auth-panel .primary-button {
+  transition: transform .2s, background .2s
+}
+
+.auth-panel .primary-button:hover {
+  background: #d95f4e;
+  transform: translateY(-2px)
+}
+
+@media(max-width:800px) {
+  .auth-shell {
+    grid-template-columns: 1fr
+  }
+
+  .auth-art {
+    display: none
+  }
+
+  .mobile-brand {
+    display: flex;
+    margin-bottom: 48px
+  }
+
+  .auth-inner {
+    width: min(400px, 84%)
+  }
+
+  .auth-panel {
+    min-height: 100vh;
+    padding: 34px 0
+  }
+
+  .auth-heading h2 {
+    font-size: 36px
+  }
+}
+
+.auth-panel {
+  isolation: isolate
+}
+
+.auth-inner {
+  position: relative;
+  z-index: 1
+}
+
+.auth-heading h2 {
+  animation: heading-enter .5s ease-out .08s both
+}
+
+.auth-panel input {
+  transition: border-color .2s, box-shadow .2s
+}
+
+.auth-panel .primary-button {
+  transition: transform .2s, background .2s
+}
+
+.auth-panel .primary-button:hover {
+  background: #d95f4e;
+  transform: translateY(-2px)
+}
+
+@keyframes auth-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px)
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+
+@keyframes heading-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-8px)
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0)
+  }
+}
